@@ -12,7 +12,16 @@
         "noNamespaceImport": "off"
       },
       "suspicious": {
-        "noArrayIndexKey": "off"
+        "noArrayIndexKey": "off",
+        "noDocumentCookie": "off"
+      },
+      "a11y": {
+        "useFocusableInteractive": "off",
+        "useSemanticElements": "off"
+      },
+      "nursery": {
+        "noShadow": "off",
+        "useConsistentTypeDefinitions": "off"
       }
     }
   }
