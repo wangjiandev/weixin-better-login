@@ -4,10 +4,15 @@
   "linter": {
     "rules": {
       "style": {
-        "noNonNullAssertion": "off"
+        "noNonNullAssertion": "off",
+        "useBlockStatements": "off",
+        "noMagicNumbers": "off"
       },
       "performance": {
         "noNamespaceImport": "off"
+      },
+      "suspicious": {
+        "noArrayIndexKey": "off"
       }
     }
   }
