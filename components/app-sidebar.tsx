@@ -31,15 +31,15 @@ const data = {
   teams: [
     {
       name: 'InnovaCraft',
-      logo: 'https://raw.githubusercontent.com/origin-space/origin-images/refs/heads/main/exp1/logo-01_kp2j8x.png',
+      logo: 'https://github.githubassets.com/assets/pull-shark-default-498c279a747d.png',
     },
     {
       name: 'Acme Corp.',
-      logo: 'https://raw.githubusercontent.com/origin-space/origin-images/refs/heads/main/exp1/logo-01_kp2j8x.png',
+      logo: 'https://github.githubassets.com/assets/pull-shark-default-498c279a747d.png',
     },
     {
       name: 'Evil Corp.',
-      logo: 'https://raw.githubusercontent.com/origin-space/origin-images/refs/heads/main/exp1/logo-01_kp2j8x.png',
+      logo: 'https://github.githubassets.com/assets/pull-shark-default-498c279a747d.png',
     },
   ],
   navMain: [

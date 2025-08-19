@@ -13,9 +13,7 @@ export default function FeedbackDialog() {
   return (
     <Dialog>
       <DialogTrigger asChild>
-        <Button className="text-sm" size="sm" variant="outline">
-          Feedback
-        </Button>
+        <Button variant="outline">Feedback</Button>
       </DialogTrigger>
       <DialogContent>
         <DialogHeader>

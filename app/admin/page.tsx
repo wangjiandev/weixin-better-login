@@ -8,6 +8,7 @@ import { RiScanLine } from '@remixicon/react';
 import { AppSidebar } from '@/components/app-sidebar';
 import FeedbackDialog from '@/components/feedback-dialog';
 import { StatsGrid } from '@/components/stats-grid';
+import { AnimatedThemeToggler } from '@/components/theme/animated-theme-toggler';
 import {
   Breadcrumb,
   BreadcrumbItem,
@@ -16,7 +17,7 @@ import {
   BreadcrumbPage,
   BreadcrumbSeparator,
 } from '@/components/ui/breadcrumb';
-import { Button } from '@/components/ui/button';
+import { Button, buttonVariants } from '@/components/ui/button';
 import { Separator } from '@/components/ui/separator';
 import {
   SidebarInset,
@@ -53,6 +54,9 @@ export default function Page() {
             </Breadcrumb>
           </div>
           <div className="ml-auto flex gap-3">
+            <AnimatedThemeToggler
+              className={buttonVariants({ variant: 'outline', size: 'icon' })}
+            />
             <FeedbackDialog />
             <UserDropdown />
           </div>
