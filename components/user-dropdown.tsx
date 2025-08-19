@@ -1,4 +1,9 @@
+'use client';
+
 import { RiLogoutBoxLine, RiSettingsLine, RiTeamLine } from '@remixicon/react';
+import Link from 'next/link';
+import { useRouter } from 'next/navigation';
+import { toast } from 'sonner';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { Button } from '@/components/ui/button';
 import {
@@ -10,8 +15,34 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu';
+import { authClient } from '@/lib/auth-client';
+import { alert } from '@/store/use-global-store';
+import { Skeleton } from './ui/skeleton';
 
 export default function UserDropdown() {
+  const { data, isPending } = authClient.useSession();
+  const router = useRouter();
+  if (isPending) {
+    return <Skeleton className="h-8 w-8" />;
+  }
+  const logout = () => {
+    alert({
+      title: 'Logout',
+      description: 'Are you sure you want to logout?',
+      confirmLabel: 'Logout',
+      onConfirm: async () => {
+        await authClient.signOut({
+          fetchOptions: {
+            onSuccess: () => {
+              toast.success('Logged out successfully');
+              router.push('/login');
+            },
+          },
+        });
+      },
+    });
+  };
+
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
@@ -20,31 +51,39 @@ export default function UserDropdown() {
             <AvatarImage
               alt="Profile image"
               height={32}
-              src="https://raw.githubusercontent.com/origin-space/origin-images/refs/heads/main/exp1/user_sam4wh.png"
+              src={data?.user?.image || ''}
               width={32}
             />
-            <AvatarFallback>KK</AvatarFallback>
+            <AvatarFallback>
+              {data?.user?.name?.charAt(0).toUpperCase()}
+            </AvatarFallback>
           </Avatar>
         </Button>
       </DropdownMenuTrigger>
-      <DropdownMenuContent align="end" className="max-w-64">
+      <DropdownMenuContent
+        align="end"
+        className="max-w-64"
+        onCloseAutoFocus={(e) => e.preventDefault()}
+      >
         <DropdownMenuLabel className="flex min-w-0 flex-col">
           <span className="truncate font-medium text-foreground text-sm">
-            Keith Kennedy
+            {data?.user?.name}
           </span>
           <span className="truncate font-normal text-muted-foreground text-xs">
-            k.kennedy@originui.com
+            {data?.user?.email}
           </span>
         </DropdownMenuLabel>
         <DropdownMenuSeparator />
         <DropdownMenuGroup>
-          <DropdownMenuItem>
-            <RiSettingsLine
-              aria-hidden="true"
-              className="opacity-60"
-              size={16}
-            />
-            <span>Account settings</span>
+          <DropdownMenuItem asChild>
+            <Link className="flex items-center gap-2" href="/admin/account">
+              <RiSettingsLine
+                aria-hidden="true"
+                className="opacity-60"
+                size={16}
+              />
+              <span>Account settings</span>
+            </Link>
           </DropdownMenuItem>
           <DropdownMenuItem>
             <RiTeamLine aria-hidden="true" className="opacity-60" size={16} />
@@ -52,7 +91,7 @@ export default function UserDropdown() {
           </DropdownMenuItem>
         </DropdownMenuGroup>
         <DropdownMenuSeparator />
-        <DropdownMenuItem>
+        <DropdownMenuItem onClick={logout}>
           <RiLogoutBoxLine
             aria-hidden="true"
             className="opacity-60"

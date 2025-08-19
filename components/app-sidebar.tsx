@@ -1,3 +1,5 @@
+'use client';
+
 import {
   RiBardLine,
   RiCodeSSlashLine,
@@ -9,7 +11,9 @@ import {
   RiSettings3Line,
   RiUserFollowLine,
 } from '@remixicon/react';
+import { useRouter } from 'next/navigation';
 import type * as React from 'react';
+import { toast } from 'sonner';
 import { SearchForm } from '@/components/search-form';
 import { TeamSwitcher } from '@/components/team-switcher';
 import {
@@ -25,6 +29,8 @@ import {
   SidebarMenuItem,
   SidebarRail,
 } from '@/components/ui/sidebar';
+import { authClient } from '@/lib/auth-client';
+import { alert } from '@/store/use-global-store';
 
 // This is sample data.
 const data = {
@@ -105,6 +111,26 @@ const data = {
 };
 
 export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
+  const router = useRouter();
+
+  const logout = () => {
+    alert({
+      title: 'Logout',
+      description: 'Are you sure you want to logout?',
+      confirmLabel: 'Logout',
+      onConfirm: async () => {
+        await authClient.signOut({
+          fetchOptions: {
+            onSuccess: () => {
+              toast.success('Logged out successfully');
+              router.push('/login');
+            },
+          },
+        });
+      },
+    });
+  };
+
   return (
     <Sidebar {...props}>
       <SidebarHeader>
@@ -150,7 +176,10 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
         <hr className="-mt-px mx-2 border-border border-t" />
         <SidebarMenu>
           <SidebarMenuItem>
-            <SidebarMenuButton className="h-9 gap-3 rounded-md bg-gradient-to-r font-medium hover:bg-transparent hover:from-sidebar-accent hover:to-sidebar-accent/40 data-[active=true]:from-primary/20 data-[active=true]:to-primary/5 [&>svg]:size-auto">
+            <SidebarMenuButton
+              className="h-9 gap-3 rounded-md bg-gradient-to-r font-medium hover:bg-transparent hover:from-sidebar-accent hover:to-sidebar-accent/40 data-[active=true]:from-primary/20 data-[active=true]:to-primary/5 [&>svg]:size-auto"
+              onClick={logout}
+            >
               <RiLogoutBoxLine
                 aria-hidden="true"
                 className="text-muted-foreground/60 group-data-[active=true]/menu-button:text-primary"

@@ -49,7 +49,7 @@ export default function Page() {
       fetchOptions: {
         onSuccess: () => {
           toast.success('Login successful');
-          router.push('/');
+          router.push('/admin');
         },
         onError: (error) => {
           toast.error(error.error.message);

@@ -12,7 +12,7 @@ export default async function Home() {
   }
 
   return (
-    <div className="flex min-h-screen flex-col items-center justify-center gap-16 font-sans">
+    <div className="flex flex-1 flex-col gap-4 py-4 lg:gap-6 lg:py-6">
       <h1>Admin</h1>
       <p>Session: {session?.user?.email}</p>
       <PersonalInformation />
