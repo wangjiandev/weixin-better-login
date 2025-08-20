@@ -4,12 +4,15 @@ import { redirect } from 'next/navigation';
 import { StatsGrid } from '@/components/stats-grid';
 import { Button } from '@/components/ui/button';
 import { auth } from '@/lib/auth';
+import { orbitron } from '@/lib/fonts';
+import { getOrganizations } from '@/server/organizations';
 
 export const metadata: Metadata = {
   title: 'Admin Dashboard',
 };
 
 export default async function Page() {
+  const organizations = await getOrganizations();
   const session = await auth.api.getSession({
     headers: await headers(),
   });
@@ -23,6 +26,10 @@ export default async function Page() {
         <div className="space-y-1">
           <h1 className="font-semibold text-2xl">Oilà, Larry!</h1>
           <p className="text-muted-foreground text-sm">
+            Here&rsquo;s an overview of your contacts. Manage or create new ones
+            with ease!
+          </p>
+          <p className={`${orbitron.className} text-muted-foreground text-sm`}>
             Here&rsquo;s an overview of your contacts. Manage or create new ones
             with ease!
           </p>
@@ -110,6 +117,15 @@ export default async function Page() {
           },
         ]}
       />
+
+      <div className="flex flex-col gap-4">
+        <h2 className="font-semibold text-2xl">Organizations</h2>
+        <div className="flex flex-col gap-4">
+          {organizations.map((organization) => (
+            <div key={organization.id}>{organization.name}</div>
+          ))}
+        </div>
+      </div>
     </div>
   );
 }

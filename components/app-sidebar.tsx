@@ -14,8 +14,7 @@ import {
 import { useRouter } from 'next/navigation';
 import type * as React from 'react';
 import { toast } from 'sonner';
-import { SearchForm } from '@/components/search-form';
-import { TeamSwitcher } from '@/components/team-switcher';
+import { OrganizationSwitcher } from '@/components/organization-switcher';
 import {
   Sidebar,
   SidebarContent,
@@ -31,6 +30,7 @@ import {
 } from '@/components/ui/sidebar';
 import { authClient } from '@/lib/auth-client';
 import { alert } from '@/store/use-global-store';
+import { OrganizationDialog } from './organization-dialog';
 
 // This is sample data.
 const data = {
@@ -112,6 +112,7 @@ const data = {
 
 export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
   const router = useRouter();
+  const { data: organizations } = authClient.useListOrganizations();
 
   const logout = () => {
     alert({
@@ -134,9 +135,9 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
   return (
     <Sidebar {...props}>
       <SidebarHeader>
-        <TeamSwitcher teams={data.teams} />
+        <OrganizationSwitcher organizations={organizations ?? []} />
         <hr className="-mt-px mx-2 border-border border-t" />
-        <SearchForm className="mt-3" />
+        <OrganizationDialog />
       </SidebarHeader>
       <SidebarContent>
         {/* We create a SidebarGroup for each parent. */}

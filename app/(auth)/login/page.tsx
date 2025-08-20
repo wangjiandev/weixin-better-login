@@ -58,6 +58,20 @@ export default function Page() {
     });
   }
 
+  const handleWechatLogin = async () => {
+    await authClient.signIn.social({
+      provider: 'wechat',
+      fetchOptions: {
+        onSuccess: () => {
+          toast.success('Login successful');
+        },
+        onError: (error) => {
+          toast.error(error.error.message);
+        },
+      },
+    });
+  };
+
   return (
     <div className="relative flex h-full min-h-screen w-full flex-col items-center justify-start px-4 pt-6 md:pt-16">
       <Card className="mx-auto w-full max-w-md">
@@ -130,8 +144,16 @@ export default function Page() {
                     'Login'
                   )}
                 </Button>
-                <Button className="w-full" variant="outline">
+                <Button className="w-full" type="button" variant="outline">
                   Login with Google
+                </Button>
+                <Button
+                  className="w-full"
+                  onClick={handleWechatLogin}
+                  type="button"
+                  variant="outline"
+                >
+                  Login with Wechat
                 </Button>
               </div>
             </form>
