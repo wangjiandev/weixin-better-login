@@ -3,6 +3,7 @@ import { drizzleAdapter } from 'better-auth/adapters/drizzle';
 import { admin, genericOAuth, organization } from 'better-auth/plugins';
 import { db } from '@/db';
 import { getActiveOrganization } from '@/server/organizations';
+import { ac, administrator, member, owner } from './auth/permissions';
 import { sendEmail } from './send-email';
 
 export const auth = betterAuth({
@@ -44,7 +45,14 @@ export const auth = betterAuth({
   },
   plugins: [
     admin(),
-    organization(),
+    organization({
+      ac,
+      roles: {
+        owner,
+        administrator,
+        member,
+      },
+    }),
     genericOAuth({
       config: [
         {

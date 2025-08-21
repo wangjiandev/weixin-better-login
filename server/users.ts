@@ -1,10 +1,10 @@
 'use server';
 
-import { eq } from 'drizzle-orm';
+import { eq, inArray, not } from 'drizzle-orm';
 import { headers } from 'next/headers';
 import { redirect } from 'next/navigation';
 import { db } from '@/db';
-import { user } from '@/db/schema';
+import { member, user } from '@/db/schema';
 import { auth } from '@/lib/auth';
 
 export async function getCurrentUser() {
@@ -28,4 +28,21 @@ export async function getCurrentUser() {
     ...session,
     currentUser,
   };
+}
+
+export async function getUsers(organizationId: string) {
+  const members = await db.query.member.findMany({
+    where: eq(member.organizationId, organizationId),
+  });
+
+  const users = await db.query.user.findMany({
+    where: not(
+      inArray(
+        user.id,
+        members.map((m) => m.userId)
+      )
+    ),
+  });
+
+  return users;
 }

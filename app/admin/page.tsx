@@ -1,5 +1,6 @@
 import type { Metadata } from 'next';
 import { headers } from 'next/headers';
+import Link from 'next/link';
 import { redirect } from 'next/navigation';
 import { StatsGrid } from '@/components/stats-grid';
 import { Button } from '@/components/ui/button';
@@ -122,7 +123,16 @@ export default async function Page() {
         <h2 className="font-semibold text-2xl">Organizations</h2>
         <div className="flex flex-col gap-4">
           {organizations.map((organization) => (
-            <div key={organization.id}>{organization.name}</div>
+            <Button
+              asChild
+              key={organization.id}
+              type="button"
+              variant="outline"
+            >
+              <Link href={`/admin/organizations/${organization.slug}`}>
+                {organization.name}
+              </Link>
+            </Button>
           ))}
         </div>
       </div>

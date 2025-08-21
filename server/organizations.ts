@@ -35,3 +35,17 @@ export async function getActiveOrganization(userId: string) {
   });
   return activeOrganization;
 }
+
+export async function getActiveOrganizationBySlug(slug: string) {
+  const organizationBySlug = await db.query.organization.findFirst({
+    where: eq(organization.slug, slug),
+    with: {
+      members: {
+        with: {
+          user: true,
+        },
+      },
+    },
+  });
+  return organizationBySlug;
+}
