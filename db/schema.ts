@@ -51,10 +51,14 @@ export const account = pgTable('account', {
   accessTokenExpiresAt: timestamp('access_token_expires_at'),
   refreshTokenExpiresAt: timestamp('refresh_token_expires_at'),
   scope: text('scope'),
+  openid: text('openid'),
+  unionid: text('unionid'),
   password: text('password'),
   createdAt: timestamp('created_at').notNull(),
   updatedAt: timestamp('updated_at').notNull(),
 });
+
+export type Account = typeof account.$inferSelect;
 
 export const verification = pgTable('verification', {
   id: text('id').primaryKey(),

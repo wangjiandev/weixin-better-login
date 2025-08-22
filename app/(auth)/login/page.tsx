@@ -58,18 +58,10 @@ export default function Page() {
     });
   }
 
-  const handleWechatLogin = async () => {
-    await authClient.signIn.social({
-      provider: 'wechat',
-      fetchOptions: {
-        onSuccess: () => {
-          toast.success('Login successful');
-        },
-        onError: (error) => {
-          toast.error(error.error.message);
-        },
-      },
-    });
+  const handleWechatLogin = () => {
+    router.push(
+      'https://open.weixin.qq.com/connect/qrconnect?appid=wx98b2ca1c96da27f4&redirect_uri=http://hcced68e.natappfree.cc/api/auth/wechat/callback&response_type=code&scope=snsapi_login&state=3d6be0a4035d839573b04816624a415e#wechat_redirect'
+    );
   };
 
   return (
